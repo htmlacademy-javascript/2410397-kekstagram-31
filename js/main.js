@@ -1,87 +1,74 @@
-const ID = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+const PHOTOS_COUNT = 25;
+const COMMENTS_COUNT = 30;
+const AVATAR_COUNT = 6;
+const MIN_LIKES = 15;
+const MAX_LIKES = 200;
+let id;
+const photoId = [];
 
-const URL = [
-  'photos/1.jpg',
-  'photos/2.jpg',
-  'photos/3.jpg',
-  'photos/4.jpg',
-  'photos/5.jpg',
-  'photos/6.jpg',
-  'photos/7.jpg',
-  'photos/8.jpg',
-  'photos/9.jpg',
-  'photos/10.jpg',
-  'photos/11.jpg',
-  'photos/12.jpg',
-  'photos/13.jpg',
-  'photos/14.jpg',
-  'photos/15.jpg',
-  'photos/16.jpg',
-  'photos/17.jpg',
-  'photos/18.jpg',
-  'photos/19.jpg',
-  'photos/20.jpg',
-  'photos/21.jpg',
-  'photos/22.jpg',
-  'photos/23.jpg',
-  'photos/24.jpg',
-  'photos/25.jpg'
+const messages = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают.Как можно было поймать такой неудачный момент ?!'
 ];
 
-const DESCRIPION [
-  'Море зовет',
-  'Горы и ничего кроме гор',
-  'Прекрасное далеко',
-  'Здесь был я',
-  'Show must go on',
-  'Never say never',
-  'Мой друг',
-  'Хамелеон',
-  'Сказка',
-  'Я и снова я',
-  'Семья',
-  'НГ 2024',
-  'А вдруг',
-  'No comments',
-  'Stupid one',
-  'Tomorrow',
-  'Yesterday with Beatles',
-  'Чепуха чепуховая',
-  'Endless trip',
-  'Путешествие в Питер',
-  'Просто хорошо',
-  'Andiamo, ragazzi!',
-  'Buongiorno',
-  'Первый рассвет',
-  'В небеса'
+const names = ['Alex', 'Алёна', 'Kris', 'Анатолий Нефёдов', 'GD', 'Мумийтролль', 'Савелий П.', 'Nat-Cat', 'Евгеша'];
+
+const descriptions = [
+  'Самое необычное фото в моей жизни',
+  'И так каждый день',
+  'Never say "never"'
 ];
 
-const LIKES [
-  30,
-  67,
-  145,
-  98,
-  25,
-  189,
-  200,
-  34,
-  94,
-  15,
-  101,
-  111,
-  47,
-  32,
-  29,
-  50,
-  162,
-  91,
-  140,
-  22,
-  16,
-  39,
-  126,
-  56,
-  78
-];
+// функция получения рандомного числа
 
-const commentsNumber [2, 3, 4, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30];
+const getRandomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
+  const result = Math.random() * (upper - lower + 1) + lower;
+
+  return Math.floor(result);
+};
+
+// функция получения случайного элемента массива
+
+const getRandomArrayElement = (array) => {
+  return array[getRandomInteger(0, array.length - 1)]
+};
+
+// функция получения рандомного id в заданном диапазоне
+const getRandomId = () => {
+  if (photoId.length > PHOTOS_COUNT) {
+    return "Фотографий больше нет";
+  }
+  id = getRandomInteger(1, PHOTOS_COUNT);
+
+  while (photoId.includes(id)) {
+    id = getRandomInteger(1, PHOTOS_COUNT)
+  }
+
+  photoId.push(id)
+  return id;
+};
+
+// функция для создания комментариев
+const createComment = () => ({
+  id: crypto.randomUUID(),
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  message: getRandomArrayElement(messages),
+  name: getRandomArrayElement(names),
+});
+
+const createPhoto = () => ({
+  id: getRandomId(),
+  url: `photos/${id}.jpg`,
+  likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
+  comments: Array.from({ length: getRandomInteger(0, COMMENTS_COUNT) }, createComment),
+  description: getRandomArrayElement(descriptions),
+});
+
+// создаем массив описаний фото
+const photoArray = Array.from({ length: PHOTOS_COUNT }, createPhoto);
