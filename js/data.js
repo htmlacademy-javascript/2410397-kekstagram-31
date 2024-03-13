@@ -28,15 +28,15 @@ const descriptions = [
 // функция получения рандомного id в заданном диапазоне
 const getRandomId = () => {
   if (photoId.length > PHOTOS_COUNT) {
-    return "Фотографий больше нет";
+    return 'Фотографий больше нет';
   }
   id = getRandomInteger(1, PHOTOS_COUNT);
 
   while (photoId.includes(id)) {
-    id = getRandomInteger(1, PHOTOS_COUNT)
+    id = getRandomInteger(1, PHOTOS_COUNT);
   }
 
-  photoId.push(id)
+  photoId.push(id);
   return id;
 };
 

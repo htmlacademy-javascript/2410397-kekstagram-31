@@ -12,8 +12,4 @@ const getRandomInteger = (min, max) => {
 
 const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
 
-// {
-//   return array[getRandomInteger(0, array.length - 1)]
-// };
-
 export { getRandomArrayElement, getRandomInteger };
